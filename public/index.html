@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pão FresQUIM - Sistema de Vendas</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <img src="img/paofresquim.png" alt="Logo Pão FresQUIM" class="logo">
+      <h1></h1>
+    </div>
+    <p>Sistema de Vendas e Controle</p>
+  </header>
+
+  <nav>
+    <button class="nav-btn active" onclick="mostrarTela('menu')">🏠 Menu</button>
+    <button class="nav-btn" onclick="mostrarTela('venda')">🛒 Venda</button>
+    <button class="nav-btn" onclick="mostrarTela('clientes')">👥 Clientes</button>
+    <button class="nav-btn" onclick="mostrarTela('produtos')">🍞 Produtos</button>
+    <button class="nav-btn" onclick="mostrarTela('funcionarios')">👷 Funcionários</button>
+    <button class="nav-btn" onclick="mostrarTela('relatorios')">📊 Relatórios</button>
+    <button class="nav-btn" onclick="mostrarTela('fiado')">📋 Fiado</button>
+  </nav>
+
+  <div class="container">
+    <!-- MENU PRINCIPAL -->
+    <div id="menu" class="tela ativa">
+      <h2>Menu Principal</h2>
+      <p>
+        Bem-vindo ao sistema da Padaria Pão FresQUIM! Escolha uma opção
+        abaixo:
+      </p>
+      <div class="menu-grid">
+        <div class="menu-item" onclick="mostrarTela('venda')">
+          <div class="icon">🛒</div>
+          <div class="label">Registrar Venda</div>
+        </div>
+        <div class="menu-item" onclick="mostrarTela('clientes')">
+          <div class="icon">👥</div>
+          <div class="label">Clientes</div>
+        </div>
+        <div class="menu-item" onclick="mostrarTela('produtos')">
+          <div class="icon">🍞</div>
+          <div class="label">Produtos</div>
+        </div>
+        <div class="menu-item" onclick="mostrarTela('funcionarios')">
+          <div class="icon">👷</div>
+          <div class="label">Funcionários</div>
+        </div>
+        <div class="menu-item" onclick="mostrarTela('relatorios')">
+          <div class="icon">📊</div>
+          <div class="label">Relatórios</div>
+        </div>
+        <div class="menu-item" onclick="mostrarTela('fiado')">
+          <div class="icon">📋</div>
+          <div class="label">Contas Fiado</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGISTRAR VENDA -->
+    <div id="venda" class="tela">
+      <h2>Registrar Venda</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Código de Barras / Produto</label>
+          <input type="text" placeholder="Digite ou leia o código" />
+        </div>
+        <div class="form-group">
+          <label>Quantidade</label>
+          <input type="number" value="1" min="0.001" step="0.01" />
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="adicionarProdutoCarrinho()">+ Adicionar Produto</button>
+
+      <div class="carrinho" id="carrinhoDiv">
+        <h3>Carrinho</h3>
+        <div id="itensCarrinho">
+          <p style="color: #999;">Nenhum produto no carrinho</p>
+        </div>
+        <div class="total" id="totalCarrinho">Total: R$ 0,00</div>
+      </div>
+
+      <div style="margin-top: 20px">
+        <div class="form-group">
+          <label>Forma de Pagamento</label>
+          <select>
+            <option>Dinheiro</option>
+            <option>Débito</option>
+            <option>Crédito</option>
+            <option>PIX</option>
+            <option>Fiado</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Funcionário (Atendente)</label>
+          <select id="funcionarioVenda">
+            <option value="">Carregando...</option>
+          </select>
+        </div>
+        <button class="btn btn-success" style="width: 100%; padding: 15px" onclick="salvarVenda()">
+          ✓ Finalizar Venda
+        </button>
+      </div>
+
+      <h3 style="margin-top: 40px;">Vendas Registradas</h3>
+      <div id="listaVendas">
+        <p>Carregando vendas...</p>
+      </div>
+    </div>
+
+    <!-- CLIENTES -->
+    <div id="clientes" class="tela">
+      <h2>Cadastro de Clientes (Fiado)</h2>
+      <form id="formCliente">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" id="nome" placeholder="Nome completo" />
+          </div>
+          <div class="form-group">
+            <label>CPF</label>
+            <!-- EDITED BY ARTHUR NOGUEIRA - máscara de CPF -->
+            <input type="text" id="cpf" placeholder="000.000.000-00" oninput="mascaraCPF(this)" maxlength="14" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Telefone</label>
+            <!-- EDITED BY ARTHUR NOGUEIRA - máscara de telefone -->
+            <input type="text" id="telefone" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)" maxlength="15" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="email@exemplo.com" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Endereço</label>
+            <input type="text" id="endereco" placeholder="Endereço" />
+          </div>
+        </div>
+        <button type="button" class="btn btn-success" onclick="salvarCliente()">Salvar Cliente</button>
+      </form>
+
+      <h3>Clientes Cadastrados</h3>
+      <div id="listaClientes">
+        <p>Carregando clientes...</p>
+      </div>
+    </div>
+
+    <!-- FUNCIONÁRIOS -->
+    <div id="funcionarios" class="tela">
+      <h2>Cadastro de Funcionários</h2>
+
+      <form id="formFuncionario">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" id="nomeFuncionario" placeholder="Nome completo" />
+          </div>
+
+          <div class="form-group">
+            <label>Cargo</label>
+            <select id="cargoFuncionario">
+              <option value="">Selecione um cargo</option>
+              <option value="Padeiro">Padeiro</option>
+              <option value="Atendente">Atendente</option>
+              <option value="Gerente">Gerente</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Data de Admissão</label>
+            <input type="date" id="dataAdmissaoFuncionario" />
+          </div>
+
+          <div class="form-group">
+            <label>Telefone Pessoal</label>
+            <!-- EDITED BY ARTHUR NOGUEIRA - máscara de telefone -->
+            <input type="text" id="telefonePessoalFuncionario" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)" maxlength="15" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Telefone de Emergência</label>
+            <!-- EDITED BY ARTHUR NOGUEIRA - máscara de telefone -->
+            <input type="text" id="telefoneEmergenciaFuncionario" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)" maxlength="15" />
+          </div>
+
+          <div class="form-group">
+            <label>Endereço</label>
+            <input type="text" id="enderecoFuncionario" placeholder="Rua, número, bairro" />
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-success" onclick="salvarFuncionario()">
+          Salvar Funcionário
+        </button>
+
+      </form>
+
+      <h3>Funcionários Cadastrados</h3>
+
+      <div id="listaFuncionarios">
+        <p>Carregando funcionários...</p>
+      </div>
+    </div>
+
+
+    <!-- PRODUTOS -->
+    <div id="produtos" class="tela">
+      <h2>Cadastro de Produtos</h2>
+      <form id="formProduto">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome do Produto</label>
+            <input type="text" id="nomeProduto" placeholder="Ex: Pão Francês" />
+          </div>
+          <div class="form-group">
+            <label>Preço (R$)</label>
+            <input type="number" id="precoProduto" placeholder="0,00" step="0.01" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Código de Barras</label>
+            <input type="text" id="codigoBarrasProduto" placeholder="0000000000000" />
+          </div>
+          <div class="form-group">
+            <label>Unidade</label>
+            <select id="unidadeProduto">
+              <option value="">Selecione uma unidade</option>
+              <option value="un">Unidade (un)</option>
+              <option value="kg">Quilograma (kg)</option>
+              <option value="pct">Pacote</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn btn-success" onclick="salvarProduto()">Salvar Produto</button>
+      </form>
+
+      <h3>Produtos Cadastrados</h3>
+      <div id="listaProdutos">
+        <p>Carregando produtos...</p>
+      </div>
+    </div>
+
+
+    <!-- RELATÓRIOS -->
+    <div id="relatorios" class="tela">
+
+      <h2>Relatório de Vendas</h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Data Início</label>
+          <input type="date" id="dataInicio" />
+        </div>
+
+        <div class="form-group">
+          <label>Data Fim</label>
+          <input type="date" id="dataFim" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Produto (opcional)</label>
+          <!-- <select id="produto">
+            <option value="Todos">Todos</option>
+            <option value="Pão Francês">Pão Francês</option>
+            <option value="Pão de Queijo">Pão de Queijo</option>
+          </select> -->
+          <select id="produto">
+            <option value="Todos">Todos</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Forma de Pagamento</label>
+          <select id="pagamento">
+            <option value="Todas">Todas</option>
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Débito">Débito</option>
+            <option value="Crédito">Crédito</option>
+            <option value="PIX">PIX</option>
+            <option value="Fiado">Fiado</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="gerarRelatorio()">
+        Gerar Relatório
+      </button>
+
+      <div class="resultado">
+        <h3>Resultado</h3>
+
+        <p id="total"></p>
+
+        <canvas id="grafico"></canvas>
+      </div>
+
+    </div>
+
+    <!-- FIADO -->
+    <div id="fiado" class="tela">
+      <h2>Contas Fiado (Inadimplência)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>ID Cliente</th>
+            <th>Data</th>
+            <th>Total</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaFiadoClientes">
+          <tr>
+            <td colspan="5" style="text-align: center; color: #999;">Carregando dados...</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 id="tituloDetalhes" style="display: none; margin-top: 40px;">Detalhes da Conta: <span
+          id="nomeClienteSelecionado"></span></h3>
+      <table id="tabelaDetalhes" style="display: none;">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaDetalhesCorpo">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+
+  <!-- Modal de Seleção de Cliente -->
+  <div id="modalCliente"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+    <div
+      style="background: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 400px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <h3>Selecione o Cliente</h3>
+      <select id="selectClienteVenda"
+        style="width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ddd; border-radius: 4px;">
+        <option value="">Venda Sem Cliente</option>
+      </select>
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+        <button onclick="fecharModalCliente()"
+          style="padding: 10px 20px; background: #ccc; border: none; border-radius: 4px; cursor: pointer;">Cancelar</button>
+        <button onclick="confirmarClienteVenda()"
+          style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirmar</button>
+      </div>
+    </div>
+  </div>
+  <!-- EDITED BY ARTHUR NOGUEIRA - Modal de confirmação global -->
+  <div id="modalConfirmacao" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 380px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); text-align: center;">
+      <div style="font-size: 40px; margin-bottom: 10px;" id="modalConfirmacaoIcone">⚠️</div>
+      <h3 style="color: #8b6f47; margin-bottom: 10px;" id="modalConfirmacaoTitulo">Confirmar ação</h3>
+      <p style="color: #555; margin-bottom: 25px;" id="modalConfirmacaoMensagem">Tem certeza?</p>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button id="modalConfirmacaoCancelar" style="padding: 10px 25px; background: #ccc; border: none; border-radius: 4px; cursor: pointer; font-size: 15px;">Cancelar</button>
+        <button id="modalConfirmacaoConfirmar" style="padding: 10px 25px; background: #8b6f47; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold;">Confirmar</button>
+      </div>
+    </div>
+  </div>
+  <!-- END EDITED BY ARTHUR NOGUEIRA -->
+
+</body>
+
+</html>
