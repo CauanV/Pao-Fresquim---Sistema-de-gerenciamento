@@ -114,11 +114,20 @@ src/
 - **MySQL2** - Driver MySQL
 - **CORS** - Compartilhamento de recursos entre domínios
 - **dotenv** - Gerenciamento de variáveis de ambiente
+- **Node.js**
 
 ## Autor
 
-Cauan
+Cauan Vicktor
 
 ## Licença
 
 ISC
+
+
+<img width="1918" height="927" alt="image (2) (1)" src="https://github.com/user-attachments/assets/c2033d6b-95f8-49b2-a8b8-c1eaaa3ef372" />
+
+
+
+<img width="1918" height="927" alt="image (6) (1)" src="https://github.com/user-attachments/assets/d7dfc8a0-cc17-4bda-a874-8153d80b96a7" />
+
